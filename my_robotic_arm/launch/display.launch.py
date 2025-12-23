@@ -26,7 +26,7 @@ def generate_launch_description():
         arguments=[urdf_file]
     )
 
-    # 4. Node: Joint State Publisher GUI (Lets you move joints in RViz via a slider window)
+    # 4. Node: Joint State Publisher GUI 
     joint_state_publisher_gui = Node(
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
@@ -41,7 +41,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    # 6. Include: Gazebo Harmonic (Empty World)
+    # 6. Include: Gazebo Harmonic (Empty World) controllers window
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
@@ -56,9 +56,9 @@ def generate_launch_description():
         arguments=[
             '-name', 'my_arm',
             '-topic', 'robot_description',
-            '-x', '0', '-y', '0', '-z', '0.05', # Thoda upar spawn karein taki zameen mein na dhase
-            '-R', '0.0',  # Roll (X-axis rotation) - Try 1.57 or 3.14 if needed
-            '-P', '0.0',  # Pitch (Y-axis rotation) - Try 1.57 or 3.14 if needed
+            '-x', '0', '-y', '0', '-z', '0.05', 
+            '-R', '0.0',  # Roll (X-axis rotation) 
+            '-P', '0.0',  # Pitch (Y-axis rotation) 
             '-Y', '0.0'   # Yaw (Z-axis rotation)
         ],
         output='screen'
