@@ -9,20 +9,21 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(urdf REQUIRED)
 
-# 1. Install the URDF folder (Where your senior's file is)
+# 1. Install the URDF folder 
 install(DIRECTORY urdf
   DESTINATION share/${PROJECT_NAME}
 )
 
-# 2. Install the Config folder (Where the CSV is)
+# 2. Install the Config folder 
 install(DIRECTORY config
   DESTINATION share/${PROJECT_NAME}
 )
 
-# 3. Install the Launch folder (We will make this next)
+# 3. Install the Launch folder 
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
+# 4. Install the Meshes folder
 install(DIRECTORY meshes
  DESTINATION share/${PROJECT_NAME})
 
