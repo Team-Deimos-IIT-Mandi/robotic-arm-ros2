@@ -1,0 +1,39 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    # controllers
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+      # Job: "Constantly shout out the current position of every joint."
+
+      # Why we need it: RViz needs this. If you turn this off, the robot in RViz will freeze or collapse because 
+      # it stops receiving updates about where the arm is.
+    
+
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    
+    # Job: "Take a target and move the joints there smoothly."
+
+    # Why we need it: Without this, you'd have to control the voltage of every motor manually.
+    #  This controller handles the math for smooth motion.
+
+# Configuration for the arm controller
+arm_controller:
+  ros__parameters:
+    joints:
+      - Joint_1
+      - Joint_2
+      - Joint_3
+      - Joint_4
+      - Joint_5
+      - Joint_6
+      - Finger_1
+      - Finger_2
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity

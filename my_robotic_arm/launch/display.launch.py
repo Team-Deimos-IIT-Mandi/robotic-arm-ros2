@@ -16,6 +16,8 @@ def generate_launch_description():
     with open(urdf_file, 'r') as infp:
         robot_desc = infp.read()
 
+    robot_desc = robot_desc.replace('${find my_robotic_arm}', pkg_share)
+
     # 3. Node: Robot State Publisher (Publishes TF for RViz)
     robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -23,7 +25,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'robot_description': robot_desc}],
-        arguments=[urdf_file]
+    
     )
 
     # 4. Node: Joint State Publisher GUI 
@@ -41,7 +43,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    # 6. Include: Gazebo Harmonic (Empty World) controllers window
+    # 6. Include: Gazebo Harmonic (Empty World) 
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
@@ -63,11 +65,28 @@ def generate_launch_description():
         ],
         output='screen'
     )
+    # Node to start the Joint State Broadcaster (Reads joint angles)
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster"],
+        output="screen",
+    )
+
+    # Node to start the Arm Controller (Moves the robot)
+    arm_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["arm_controller"],
+        output="screen",
+    )
 
     return LaunchDescription([
         robot_state_publisher,
         joint_state_publisher_gui,
         rviz_node,
         gz_sim,
-        spawn_entity
+        spawn_entity,
+        joint_state_broadcaster_spawner,
+        arm_controller_spawner
     ])
