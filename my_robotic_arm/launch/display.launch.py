@@ -10,7 +10,7 @@ def generate_launch_description():
     
     # 1. Finding the path for URDF file
     pkg_share = get_package_share_directory(pkg_name)
-    urdf_file = os.path.join(pkg_share, 'urdf', 'Arm_Urdf.urdf')
+    urdf_file = os.path.join(pkg_share, 'urdf', 'arm_urdf.urdf')
 
     # 2. Read the URDF file content
     with open(urdf_file, 'r') as infp:
@@ -34,14 +34,22 @@ def generate_launch_description():
         executable='joint_state_publisher_gui',
         name='joint_state_publisher_gui'
     )
+        # Create the path to the rviz file
+    rviz_config_file = os.path.join(
+        get_package_share_directory('my_robotic_arm'),
+        'rviz',
+        'view_robot.rviz'  
+    )
 
-    # 5. Node: RViz2
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        output='screen'
+        output='screen',
+        arguments=['-d', rviz_config_file]  # This tells RViz to load  file
     )
+
+    
 
     # 6. Include: Gazebo Harmonic (Empty World) 
     gz_sim = IncludeLaunchDescription(
